@@ -25,8 +25,6 @@
 	$Response = $Recaptcha->verify($_POST["g-recaptcha-response"], $_SERVER['REMOTE_ADDR']);
 
 	if($Response->isSuccess()) {
-		$mysqli->query("INSERT INTO `users`(`login`, `password`, `roll`) VALUES ('".$login."', '".$password."', 0)");
-	
 		$query_user = $mysqli->query("SELECT * FROM `users` WHERE `login`='".$login."' AND `password`= '".$password."';");
 		$user_new = $query_user->fetch_row();
 		$id = $user_new[0];
