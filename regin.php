@@ -44,6 +44,7 @@
 					<input name="_password" type="password" placeholder="" onkeypress="return PressToEnter(event)"/>
 					<div class = "sub-name">Повторите пароль:</div>
 					<input name="_passwordCopy" type="password" placeholder="" onkeypress="return PressToEnter(event)"/>
+					<center><div class="g-recaptcha" data-sitekey="6Ld_0pksAAAAAGSad9JpaAbu927kqVmr5jin0My_"></div></center>
 					
 					<a href="login.php">Вернуться</a>
 					<input type="button" class="button" value="Зайти" onclick="RegIn()" style="margin-top: 0px;"/>
@@ -70,12 +71,19 @@
 				if(_login != "") {
 					if(_password != "") {
 						if(_password == _passwordCopy) {
+							var captcha = grecaptcha.getResponse();
+							if(captcha.length == 0) {
+								alert("Пройди проверку");
+								return;
+							}
+
 							loading.style.display = "block";
 							button.className = "button_diactive";
 							
 							var data = new FormData();
 							data.append("login", _login);
 							data.append("password", _password);
+							data.append('g-recaptcha-response', captcha);
 							
 							// AJAX запрос
 							$.ajax({
